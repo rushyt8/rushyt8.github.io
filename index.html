@@ -1,0 +1,540 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Rush_YT8</title>
+    <link rel="icon" id="favicon" type="image/png" href="icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            cursor: url('Dark/alternate.cur'), auto;
+        }
+
+        a, button, .volume-btn, .socials a, #playBtn, .time-bar {
+            cursor: url('Dark/beam.cur'), pointer;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+            background-color: #000;
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 1;
+        }
+
+        .volume-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .volume-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .card {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
+        }
+
+        .title-container {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            margin: 0;
+        }
+
+        .static-at {
+            font-size: 22px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 1px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+                transform: translate(0, -3px) scale(1);
+            }
+            100% {
+                transform: translate(calc(-12px + 24px * var(--rand-x)), -30px) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        .location {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 10px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .status-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .status-text {
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .status-title {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge {
+            color: #7289da;
+            font-size: 10px;
+        }
+
+        .socials {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .socials a {
+            color: #fff;
+            font-size: 20px;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            border-radius: 50%;
+            padding: 2px;
+        }
+
+        .socials a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+            filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.9));
+        }
+
+        .views {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .player {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .cover {
+            width: 45px;
+            height: 45px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .song-info {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .song-title {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .song-artist {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .time-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        .time {
+            font-size: 10px;
+            color: #888;
+            margin-top: 3px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <video class="bg-video" autoplay loop muted playsinline id="bgVideo">
+        <source src="background.mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+
+    <button class="volume-btn" id="muteBtn"><i class="fa-solid fa-volume-high" id="muteIcon"></i></button>
+
+    <div class="card">
+        <img src="avatar.png" class="avatar" alt="Avatar">
+        
+        <div class="title-container">
+            <span class="static-at">@</span><h1 id="animatedTitle"></h1>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+        </div>
+
+        <div class="location"><i class="fa-solid fa-location-dot"></i> Ukraine</div>
+
+        <div class="status-box">
+            <img src="avatar.png" class="status-avatar" alt="Mini Avatar">
+            <div class="status-text">
+                <div class="status-title">
+                    Rush_YT8 
+                    <i class="fa-solid fa-circle-check badge"></i>
+                </div>
+                <div style="color: #aaa;">Roblox content creator</div>
+            </div>
+        </div>
+
+        <div class="socials">
+            <a href="https://www.roblox.com/users/7662186443/profile" target="_blank" title="Roblox Profile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5.165 0L0 18.835 18.835 24 24 5.165 5.165 0zm10.154 13.993l-4.227 1.132-1.132-4.227 4.227-1.132 1.132 4.227z"/>
+                </svg>
+            </a>
+            <a href="https://www.youtube.com/@Rush_YT8" target="_blank" title="YouTube Channel">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+        </div>
+
+        <div class="views">
+            <i class="fa-regular fa-eye"></i> <span id="visits-count">...</span>
+        </div>
+
+        <div class="player">
+            <img src="cover.jpg" class="cover" alt="Song Cover">
+            <div class="song-info">
+                <div class="song-title">☆popstar☆</div>
+                <div class="song-artist">Garcon Maigre</div>
+                <div class="time-bar" id="timeBar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+            <div class="controls">
+                <i class="fa-solid fa-play" id="playBtn"></i>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" src="music.mp3" loop></audio>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                const randomX = Math.random();
+                const randomDelay = Math.random() * 2.5;
+                const randomDuration = 1.5 + Math.random() * 2;
+                const randomSize = 1.5 + Math.random() * 2.5;
+
+                particle.style.width = `${randomSize}px`;
+                particle.style.height = `${randomSize}px`;
+                particle.style.left = `${randomX * 100}%`;
+                particle.style.top = '70%';
+
+                particle.style.animationDelay = `${randomDelay}s`;
+                particle.style.animationDuration = `${randomDuration}s`;
+                particle.style.setProperty('--rand-x', randomX);
+
+                particle.style.animationName = 'particle-float';
+                particle.style.animationIterationCount = 'infinite';
+                particle.style.animationTimingFunction = 'ease-out';
+            });
+        });
+
+        const titleText = "Rush_YT8";
+        let titleIndex = 0;
+        let isDeleting = false;
+        const animatedTitleEl = document.getElementById('animatedTitle');
+
+        function animateTitle() {
+            if (!isDeleting) {
+                animatedTitleEl.textContent = titleText.substring(0, titleIndex + 1);
+                document.title = "@" + titleText.substring(0, titleIndex + 1);
+                titleIndex++;
+                if (titleIndex === titleText.length) {
+                    isDeleting = true;
+                    setTimeout(animateTitle, 2000);
+                    return;
+                }
+            } else {
+                animatedTitleEl.textContent = titleText.substring(0, titleIndex - 1);
+                document.title = "@" + titleText.substring(0, titleIndex - 1);
+                titleIndex--;
+                if (titleIndex === 0) {
+                    isDeleting = false;
+                }
+            }
+            setTimeout(animateTitle, isDeleting ? 150 : 250);
+        }
+        animateTitle();
+
+        const video = document.getElementById('bgVideo');
+        const muteBtn = document.getElementById('muteBtn');
+        const muteIcon = document.getElementById('muteIcon');
+
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playBtn');
+        const progress = document.getElementById('progress');
+        const timeBar = document.getElementById('timeBar');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+
+        let isMuted = false;
+
+        muteBtn.addEventListener('click', () => {
+            isMuted = !isMuted;
+            audio.muted = isMuted;
+            video.muted = isMuted;
+
+            if (isMuted) {
+                muteIcon.className = 'fa-solid fa-volume-xmark';
+            } else {
+                muteIcon.className = 'fa-solid fa-volume-high';
+            }
+        });
+
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playBtn.className = 'fa-solid fa-pause';
+            } else {
+                audio.pause();
+                playBtn.className = 'fa-solid fa-play';
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progress.style.width = percent + '%';
+                
+                let curMins = Math.floor(audio.currentTime / 60);
+                let curSecs = Math.floor(audio.currentTime % 60);
+                if (curSecs < 10) curSecs = '0' + curSecs;
+                currentTimeEl.textContent = `${curMins}:${curSecs}`;
+
+                let durMins = Math.floor(audio.duration / 60);
+                let durSecs = Math.floor(audio.duration % 60);
+                if (durSecs < 10) durSecs = '0' + durSecs;
+                durationEl.textContent = `${durMins}:${durSecs}`;
+            }
+        });
+
+        timeBar.addEventListener('click', (e) => {
+            const width = timeBar.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            if (duration) {
+                audio.currentTime = (clickX / width) * duration;
+            }
+        });
+
+        const counterNamespace = "rush_yt8_site";
+        const counterKey = "page_views";
+
+        if (!localStorage.getItem('has_visited')) {
+            fetch(`https://api.countapi.xyz/hit/${counterNamespace}/${counterKey}`)
+                .then(res => res.json())
+                .then(res => {
+                    document.getElementById('visits-count').innerText = res.value;
+                    localStorage.setItem('has_visited', 'true');
+                }).catch(() => {
+                    document.getElementById('visits-count').innerText = '1';
+                });
+        } else {
+            fetch(`https://api.countapi.xyz/get/${counterNamespace}/${counterKey}`)
+                .then(res => res.json())
+                .then(res => {
+                    document.getElementById('visits-count').innerText = res.value;
+                }).catch(() => {
+                    document.getElementById('visits-count').innerText = '1';
+                });
+        }
+
+        /* АНИМАЦИЯ FAVICON: ☆ → ✩ → ✧ → ✩ → ☆ */
+        const favicon = document.getElementById('favicon');
+
+        const faviconFrames = [
+            '☆',
+            '✩',
+            '✧',
+            '✩',
+            '☆'
+        ];
+
+        let faviconFrame = 0;
+
+        function animateFavicon() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+
+            const ctx = canvas.getContext('2d');
+
+            ctx.clearRect(0, 0, 64, 64);
+
+            ctx.font = '52px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            /* Необычный цвет: фиолетовый + бирюзовое свечение */
+            ctx.fillStyle = '#b45cff';
+            ctx.shadowColor = '#00f5ff';
+            ctx.shadowBlur = 15;
+
+            ctx.fillText(faviconFrames[faviconFrame], 32, 34);
+
+            favicon.href = canvas.toDataURL('image/png');
+
+            faviconFrame = (faviconFrame + 1) % faviconFrames.length;
+        }
+
+        animateFavicon();
+        setInterval(animateFavicon, 180);
+    </script>
+
+</body>
+</html>
+```
