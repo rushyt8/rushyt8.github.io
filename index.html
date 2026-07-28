@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Rush_YT8</title>
-    <link rel="icon" id="favicon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -492,47 +492,6 @@
                     document.getElementById('visits-count').innerText = '1';
                 });
         }
-
-        /* АНИМАЦИЯ FAVICON: ☆ → ✩ → ✧ → ✩ → ☆ */
-        const favicon = document.getElementById('favicon');
-
-        const faviconFrames = [
-            '☆',
-            '✩',
-            '✧',
-            '✩',
-            '☆'
-        ];
-
-        let faviconFrame = 0;
-
-        function animateFavicon() {
-            const canvas = document.createElement('canvas');
-            canvas.width = 64;
-            canvas.height = 64;
-
-            const ctx = canvas.getContext('2d');
-
-            ctx.clearRect(0, 0, 64, 64);
-
-            ctx.font = '52px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            /* Необычный цвет: фиолетовый + бирюзовое свечение */
-            ctx.fillStyle = '#b45cff';
-            ctx.shadowColor = '#00f5ff';
-            ctx.shadowBlur = 15;
-
-            ctx.fillText(faviconFrames[faviconFrame], 32, 34);
-
-            favicon.href = canvas.toDataURL('image/png');
-
-            faviconFrame = (faviconFrame + 1) % faviconFrames.length;
-        }
-
-        animateFavicon();
-        setInterval(animateFavicon, 180);
     </script>
 
 </body>
