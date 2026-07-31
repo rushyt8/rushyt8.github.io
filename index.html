@@ -6,6 +6,7 @@
     <title>@Rush_YT8</title>
     <link rel="icon" type="image/png" href="icon.png?v=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -46,7 +47,10 @@
 
         .overlay {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.65);
             z-index: 1;
         }
@@ -119,12 +123,17 @@
                 transform: translate(0, 0) scale(0);
                 opacity: 0;
             }
+
             20% {
                 opacity: 1;
                 transform: translate(0, -3px) scale(1);
             }
+
             100% {
-                transform: translate(calc(-12px + 24px * var(--rand-x)), -30px) scale(0.3);
+                transform: translate(
+                    calc(-12px + 24px * var(--rand-x)),
+                    -30px
+                ) scale(0.3);
                 opacity: 0;
             }
         }
@@ -273,6 +282,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <video class="bg-video" autoplay loop muted playsinline id="bgVideo">
@@ -281,13 +291,18 @@
 
     <div class="overlay"></div>
 
-    <button class="volume-btn" id="muteBtn"><i class="fa-solid fa-volume-high" id="muteIcon"></i></button>
+    <button class="volume-btn" id="muteBtn">
+        <i class="fa-solid fa-volume-high" id="muteIcon"></i>
+    </button>
 
     <div class="card">
+
         <img src="avatar.png" class="avatar" alt="Avatar">
-        
+
         <div class="title-container">
+
             <h1 id="animatedTitle"></h1>
+
             <span class="particle"></span>
             <span class="particle"></span>
             <span class="particle"></span>
@@ -300,61 +315,112 @@
             <span class="particle"></span>
             <span class="particle"></span>
             <span class="particle"></span>
+
         </div>
 
-        <div class="location"><i class="fa-solid fa-location-dot"></i> Ukraine</div>
+        <div class="location">
+            <i class="fa-solid fa-location-dot"></i>
+            Ukraine
+        </div>
 
         <div class="status-box">
+
             <img src="avatar.png" class="status-avatar" alt="Mini Avatar">
+
             <div class="status-text">
+
                 <div class="status-title">
-                    Rush_YT8 
+                    Rush_YT8
                     <i class="fa-solid fa-circle-check badge"></i>
                 </div>
-                <div style="color: #aaa;">Roblox content creator</div>
+
+                <div style="color: #aaa;">
+                    Roblox content creator
+                </div>
+
             </div>
+
         </div>
 
         <div class="socials">
-            <a href="https://www.roblox.com/users/7662186443/profile" target="_blank" title="Roblox Profile">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+
+            <a
+                href="https://www.roblox.com/users/7662186443/profile"
+                target="_blank"
+                title="Roblox Profile"
+            >
+                <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                >
                     <path d="M5.165 0L0 18.835 18.835 24 24 5.165 5.165 0zm10.154 13.993l-4.227 1.132-1.132-4.227 4.227-1.132 1.132 4.227z"/>
                 </svg>
             </a>
-            <a href="https://www.youtube.com/@Rush_YT8" target="_blank" title="YouTube Channel">
+
+            <a
+                href="https://www.youtube.com/@Rush_YT8"
+                target="_blank"
+                title="YouTube Channel"
+            >
                 <i class="fa-brands fa-youtube"></i>
             </a>
+
         </div>
 
         <div class="views">
-            <i class="fa-regular fa-eye"></i> <span id="visits-count">...</span>
+            <i class="fa-regular fa-eye"></i>
+            <span id="visits-count">.</span>
         </div>
 
         <div class="player">
+
             <img src="cover.jpg" class="cover" alt="Song Cover">
+
             <div class="song-info">
-                <div class="song-title">☆popstar☆</div>
-                <div class="song-artist">Garcon Maigre</div>
+
+                <div class="song-title">
+                    ☆popstar☆
+                </div>
+
+                <div class="song-artist">
+                    Garcon Maigre
+                </div>
+
                 <div class="time-bar" id="timeBar">
                     <div class="progress" id="progress"></div>
                 </div>
+
                 <div class="time">
                     <span id="currentTime">0:00</span>
                     <span id="duration">0:00</span>
                 </div>
+
             </div>
+
             <div class="controls">
                 <i class="fa-solid fa-play" id="playBtn"></i>
             </div>
+
         </div>
+
     </div>
 
     <audio id="audioPlayer" src="music.mp3" loop></audio>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+
+        /* =========================
+           PARTICLES
+        ========================= */
+
+        document.addEventListener("DOMContentLoaded", function () {
+
             const particles = document.querySelectorAll('.particle');
+
             particles.forEach(particle => {
+
                 const randomX = Math.random();
                 const randomDelay = Math.random() * 2.5;
                 const randomDuration = 1.5 + Math.random() * 2;
@@ -362,152 +428,401 @@
 
                 particle.style.width = `${randomSize}px`;
                 particle.style.height = `${randomSize}px`;
+
                 particle.style.left = `${randomX * 100}%`;
                 particle.style.top = '70%';
 
                 particle.style.animationDelay = `${randomDelay}s`;
                 particle.style.animationDuration = `${randomDuration}s`;
+
                 particle.style.setProperty('--rand-x', randomX);
 
                 particle.style.animationName = 'particle-float';
                 particle.style.animationIterationCount = 'infinite';
                 particle.style.animationTimingFunction = 'ease-out';
+
             });
+
         });
 
-        // Анимация вкладки браузера (прежняя скорость)
+
+        /* =========================
+           BROWSER TITLE
+        ========================= */
+
         const browserTitleText = "Rush_YT8";
+
         let browserIndex = 0;
         let isBrowserDeleting = false;
 
         function animateBrowserTitle() {
+
             if (!isBrowserDeleting) {
-                document.title = "@" + browserTitleText.substring(0, browserIndex + 1);
+
+                document.title =
+                    "@" +
+                    browserTitleText.substring(
+                        0,
+                        browserIndex + 1
+                    );
+
                 browserIndex++;
+
                 if (browserIndex === browserTitleText.length) {
+
                     isBrowserDeleting = true;
-                    setTimeout(animateBrowserTitle, 2000);
+
+                    setTimeout(
+                        animateBrowserTitle,
+                        2000
+                    );
+
                     return;
                 }
+
             } else {
-                document.title = "@" + browserTitleText.substring(0, browserIndex - 1);
+
+                document.title =
+                    "@" +
+                    browserTitleText.substring(
+                        0,
+                        browserIndex - 1
+                    );
+
                 browserIndex--;
+
                 if (browserIndex === 0) {
                     isBrowserDeleting = false;
                 }
+
             }
-            setTimeout(animateBrowserTitle, isBrowserDeleting ? 150 : 250);
+
+            setTimeout(
+                animateBrowserTitle,
+                isBrowserDeleting ? 150 : 250
+            );
         }
+
         animateBrowserTitle();
 
-        // Анимация заголовка под аватаркой (ускоренная на ~0.25с)
+
+        /* =========================
+           MAIN TITLE
+        ========================= */
+
         const siteTitleText = "Диджей Арбуз";
+
         let siteIndex = 0;
         let isSiteDeleting = false;
-        const animatedTitleEl = document.getElementById('animatedTitle');
+
+        const animatedTitleEl =
+            document.getElementById('animatedTitle');
 
         function animateSiteTitle() {
+
             if (!isSiteDeleting) {
-                animatedTitleEl.textContent = siteTitleText.substring(0, siteIndex + 1);
+
+                animatedTitleEl.textContent =
+                    siteTitleText.substring(
+                        0,
+                        siteIndex + 1
+                    );
+
                 siteIndex++;
+
                 if (siteIndex === siteTitleText.length) {
+
                     isSiteDeleting = true;
-                    setTimeout(animateSiteTitle, 2000);
+
+                    setTimeout(
+                        animateSiteTitle,
+                        2000
+                    );
+
                     return;
                 }
+
             } else {
-                animatedTitleEl.textContent = siteTitleText.substring(0, siteIndex - 1);
+
+                animatedTitleEl.textContent =
+                    siteTitleText.substring(
+                        0,
+                        siteIndex - 1
+                    );
+
                 siteIndex--;
+
                 if (siteIndex === 0) {
                     isSiteDeleting = false;
                 }
+
             }
-            setTimeout(animateSiteTitle, isSiteDeleting ? 100 : 170);
+
+            setTimeout(
+                animateSiteTitle,
+                isSiteDeleting ? 100 : 170
+            );
         }
+
         animateSiteTitle();
 
-        const video = document.getElementById('bgVideo');
-        const muteBtn = document.getElementById('muteBtn');
-        const muteIcon = document.getElementById('muteIcon');
 
-        const audio = document.getElementById('audioPlayer');
-        const playBtn = document.getElementById('playBtn');
-        const progress = document.getElementById('progress');
-        const timeBar = document.getElementById('timeBar');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
+        /* =========================
+           AUDIO / VIDEO
+        ========================= */
+
+        const video =
+            document.getElementById('bgVideo');
+
+        const muteBtn =
+            document.getElementById('muteBtn');
+
+        const muteIcon =
+            document.getElementById('muteIcon');
+
+        const audio =
+            document.getElementById('audioPlayer');
+
+        const playBtn =
+            document.getElementById('playBtn');
+
+        const progress =
+            document.getElementById('progress');
+
+        const timeBar =
+            document.getElementById('timeBar');
+
+        const currentTimeEl =
+            document.getElementById('currentTime');
+
+        const durationEl =
+            document.getElementById('duration');
 
         let isMuted = false;
 
+
+        /* MUTE */
+
         muteBtn.addEventListener('click', () => {
+
             isMuted = !isMuted;
+
             audio.muted = isMuted;
             video.muted = isMuted;
 
             if (isMuted) {
-                muteIcon.className = 'fa-solid fa-volume-xmark';
+
+                muteIcon.className =
+                    'fa-solid fa-volume-xmark';
+
             } else {
-                muteIcon.className = 'fa-solid fa-volume-high';
+
+                muteIcon.className =
+                    'fa-solid fa-volume-high';
+
             }
+
         });
+
+
+        /* PLAY / PAUSE */
 
         playBtn.addEventListener('click', () => {
+
             if (audio.paused) {
+
                 audio.play();
-                playBtn.className = 'fa-solid fa-pause';
+
+                playBtn.className =
+                    'fa-solid fa-pause';
+
             } else {
+
                 audio.pause();
-                playBtn.className = 'fa-solid fa-play';
+
+                playBtn.className =
+                    'fa-solid fa-play';
+
             }
+
         });
+
+
+        /* PROGRESS */
 
         audio.addEventListener('timeupdate', () => {
-            if (audio.duration) {
-                const percent = (audio.currentTime / audio.duration) * 100;
-                progress.style.width = percent + '%';
-                
-                let curMins = Math.floor(audio.currentTime / 60);
-                let curSecs = Math.floor(audio.currentTime % 60);
-                if (curSecs < 10) curSecs = '0' + curSecs;
-                currentTimeEl.textContent = `${curMins}:${curSecs}`;
 
-                let durMins = Math.floor(audio.duration / 60);
-                let durSecs = Math.floor(audio.duration % 60);
-                if (durSecs < 10) durSecs = '0' + durSecs;
-                durationEl.textContent = `${durMins}:${durSecs}`;
+            if (audio.duration) {
+
+                const percent =
+                    (audio.currentTime / audio.duration) * 100;
+
+                progress.style.width =
+                    percent + '%';
+
+
+                let curMins =
+                    Math.floor(audio.currentTime / 60);
+
+                let curSecs =
+                    Math.floor(audio.currentTime % 60);
+
+                if (curSecs < 10) {
+                    curSecs = '0' + curSecs;
+                }
+
+                currentTimeEl.textContent =
+                    `${curMins}:${curSecs}`;
+
+
+                let durMins =
+                    Math.floor(audio.duration / 60);
+
+                let durSecs =
+                    Math.floor(audio.duration % 60);
+
+                if (durSecs < 10) {
+                    durSecs = '0' + durSecs;
+                }
+
+                durationEl.textContent =
+                    `${durMins}:${durSecs}`;
+
             }
+
         });
+
+
+        /* SEEK */
 
         timeBar.addEventListener('click', (e) => {
-            const width = timeBar.clientWidth;
-            const clickX = e.offsetX;
-            const duration = audio.duration;
+
+            const width =
+                timeBar.clientWidth;
+
+            const clickX =
+                e.offsetX;
+
+            const duration =
+                audio.duration;
+
             if (duration) {
-                audio.currentTime = (clickX / width) * duration;
+
+                audio.currentTime =
+                    (clickX / width) * duration;
+
             }
+
         });
 
-        const counterNamespace = "rush_yt8_site";
-        const counterKey = "page_views";
+
+        /* =========================
+           VISITOR COUNTER
+        ========================= */
+
+        const counterNamespace =
+            "rush_yt8_site";
+
+        const counterKey =
+            "page_views";
 
         if (!localStorage.getItem('has_visited')) {
-            fetch(`https://api.countapi.xyz/hit/${counterNamespace}/${counterKey}`)
+
+            fetch(
+                `https://api.countapi.xyz/hit/${counterNamespace}/${counterKey}`
+            )
+
                 .then(res => res.json())
+
                 .then(res => {
-                    document.getElementById('visits-count').innerText = res.value;
-                    localStorage.setItem('has_visited', 'true');
-                }).catch(() => {
-                    document.getElementById('visits-count').innerText = '1';
+
+                    document.getElementById(
+                        'visits-count'
+                    ).innerText = res.value;
+
+                    localStorage.setItem(
+                        'has_visited',
+                        'true'
+                    );
+
+                })
+
+                .catch(() => {
+
+                    document.getElementById(
+                        'visits-count'
+                    ).innerText = '1';
+
                 });
+
         } else {
-            fetch(`https://api.countapi.xyz/get/${counterNamespace}/${counterKey}`)
+
+            fetch(
+                `https://api.countapi.xyz/get/${counterNamespace}/${counterKey}`
+            )
+
                 .then(res => res.json())
+
                 .then(res => {
-                    document.getElementById('visits-count').innerText = res.value;
-                }).catch(() => {
-                    document.getElementById('visits-count').innerText = '1';
+
+                    document.getElementById(
+                        'visits-count'
+                    ).innerText = res.value;
+
+                })
+
+                .catch(() => {
+
+                    document.getElementById(
+                        'visits-count'
+                    ).innerText = '1';
+
                 });
+
         }
+
+
+        /* =========================
+           RANDOM URL
+           CHANGES EVERY 0.1 SEC
+        ========================= */
+
+        function randomPath() {
+
+            const chars =
+                'abcdefghijklmnopqrstuvwxyz0123456789';
+
+            let result = '';
+
+            for (let i = 0; i < 8; i++) {
+
+                result +=
+                    chars[
+                        Math.floor(
+                            Math.random() * chars.length
+                        )
+                    ];
+
+            }
+
+            return (
+                result.slice(0, 5) +
+                '-' +
+                result.slice(5)
+            );
+        }
+
+
+        setInterval(() => {
+
+            history.replaceState(
+                null,
+                '',
+                '/' + randomPath()
+            );
+
+        }, 100);
+
     </script>
 
 </body>
