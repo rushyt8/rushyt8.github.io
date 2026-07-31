@@ -96,13 +96,6 @@
             margin-bottom: 8px;
         }
 
-        .static-at {
-            font-size: 22px;
-            font-weight: 600;
-            position: relative;
-            z-index: 2;
-        }
-
         h1 {
             font-size: 22px;
             font-weight: 600;
@@ -382,42 +375,56 @@
             });
         });
 
-        // Синхронизированная анимация для вкладки (с @) и заголовка под аватаркой (без @)
+        // Анимация вкладки браузера (прежняя скорость)
         const browserTitleText = "Rush_YT8";
-        const siteTitleText = "Диджей Арбуз";
-        
-        let index = 0;
-        let isDeleting = false;
-        const animatedTitleEl = document.getElementById('animatedTitle');
+        let browserIndex = 0;
+        let isBrowserDeleting = false;
 
-        function animateTitles() {
-            if (!isDeleting) {
-                document.title = "@" + browserTitleText.substring(0, index + 1);
-                animatedTitleEl.textContent = siteTitleText.substring(0, index + 1);
-                
-                index++;
-                
-                // Берем максимальную длину, чтобы допечатались оба слова если они разной длины
-                const maxLength = Math.max(browserTitleText.length, siteTitleText.length);
-                
-                if (index === maxLength) {
-                    isDeleting = true;
-                    setTimeout(animateTitles, 2000);
+        function animateBrowserTitle() {
+            if (!isBrowserDeleting) {
+                document.title = "@" + browserTitleText.substring(0, browserIndex + 1);
+                browserIndex++;
+                if (browserIndex === browserTitleText.length) {
+                    isBrowserDeleting = true;
+                    setTimeout(animateBrowserTitle, 2000);
                     return;
                 }
             } else {
-                // Плавное удаление с учетом разницы в длине строк
-                document.title = "@" + browserTitleText.substring(0, Math.max(0, index - 1));
-                animatedTitleEl.textContent = siteTitleText.substring(0, Math.max(0, index - 1));
-                
-                index--;
-                if (index === 0) {
-                    isDeleting = false;
+                document.title = "@" + browserTitleText.substring(0, browserIndex - 1);
+                browserIndex--;
+                if (browserIndex === 0) {
+                    isBrowserDeleting = false;
                 }
             }
-            setTimeout(animateTitles, isDeleting ? 150 : 250);
+            setTimeout(animateBrowserTitle, isBrowserDeleting ? 150 : 250);
         }
-        animateTitles();
+        animateBrowserTitle();
+
+        // Анимация заголовка под аватаркой (ускоренная на ~0.25с)
+        const siteTitleText = "Диджей Арбуз";
+        let siteIndex = 0;
+        let isSiteDeleting = false;
+        const animatedTitleEl = document.getElementById('animatedTitle');
+
+        function animateSiteTitle() {
+            if (!isSiteDeleting) {
+                animatedTitleEl.textContent = siteTitleText.substring(0, siteIndex + 1);
+                siteIndex++;
+                if (siteIndex === siteTitleText.length) {
+                    isSiteDeleting = true;
+                    setTimeout(animateSiteTitle, 2000);
+                    return;
+                }
+            } else {
+                animatedTitleEl.textContent = siteTitleText.substring(0, siteIndex - 1);
+                siteIndex--;
+                if (siteIndex === 0) {
+                    isSiteDeleting = false;
+                }
+            }
+            setTimeout(animateSiteTitle, isSiteDeleting ? 100 : 170);
+        }
+        animateSiteTitle();
 
         const video = document.getElementById('bgVideo');
         const muteBtn = document.getElementById('muteBtn');
