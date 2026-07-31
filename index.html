@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Диджей Арбуз</title>
+    <title>@Rush_YT8</title>
     <link rel="icon" type="image/png" href="icon.png?v=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -375,7 +375,7 @@
             });
         });
 
-        const titleText = "Диджей Арбуз";
+        const titleText = "Rush_YT8";
         let titleIndex = 0;
         let isDeleting = false;
         const animatedTitleEl = document.getElementById('animatedTitle');
@@ -383,7 +383,7 @@
         function animateTitle() {
             if (!isDeleting) {
                 animatedTitleEl.textContent = titleText.substring(0, titleIndex + 1);
-                document.title = titleText.substring(0, titleIndex + 1);
+                document.title = "@" + titleText.substring(0, titleIndex + 1);
                 titleIndex++;
                 if (titleIndex === titleText.length) {
                     isDeleting = true;
@@ -392,7 +392,7 @@
                 }
             } else {
                 animatedTitleEl.textContent = titleText.substring(0, titleIndex - 1);
-                document.title = titleText.substring(0, titleIndex - 1);
+                document.title = "@" + titleText.substring(0, titleIndex - 1);
                 titleIndex--;
                 if (titleIndex === 0) {
                     isDeleting = false;
