@@ -294,7 +294,6 @@
         <img src="avatar.png" class="avatar" alt="Avatar">
         
         <div class="title-container">
-            <span class="static-at">@</span>
             <h1 id="animatedTitle"></h1>
             <span class="particle"></span>
             <span class="particle"></span>
@@ -383,56 +382,42 @@
             });
         });
 
-        // Анимация для названия вкладки и значка "@" перед ней
+        // Синхронизированная анимация для вкладки (с @) и заголовка под аватаркой (без @)
         const browserTitleText = "Rush_YT8";
-        let browserTitleIndex = 0;
-        let isBrowserDeleting = false;
-
-        function animateBrowserTitle() {
-            if (!isBrowserDeleting) {
-                document.title = "@" + browserTitleText.substring(0, browserTitleIndex + 1);
-                browserTitleIndex++;
-                if (browserTitleIndex === browserTitleText.length) {
-                    isBrowserDeleting = true;
-                    setTimeout(animateBrowserTitle, 2000);
-                    return;
-                }
-            } else {
-                document.title = "@" + browserTitleText.substring(0, browserTitleIndex - 1);
-                browserTitleIndex--;
-                if (browserTitleIndex === 0) {
-                    isBrowserDeleting = false;
-                }
-            }
-            setTimeout(animateBrowserTitle, isBrowserDeleting ? 150 : 250);
-        }
-        animateBrowserTitle();
-
-        // Отдельная анимация для заголовка ПОД АВАТАРКОЙ (Диджей Арбуз)
         const siteTitleText = "Диджей Арбуз";
-        let siteTitleIndex = 0;
-        let isSiteDeleting = false;
+        
+        let index = 0;
+        let isDeleting = false;
         const animatedTitleEl = document.getElementById('animatedTitle');
 
-        function animateSiteTitle() {
-            if (!isSiteDeleting) {
-                animatedTitleEl.textContent = siteTitleText.substring(0, siteTitleIndex + 1);
-                siteTitleIndex++;
-                if (siteTitleIndex === siteTitleText.length) {
-                    isSiteDeleting = true;
-                    setTimeout(animateSiteTitle, 2000);
+        function animateTitles() {
+            if (!isDeleting) {
+                document.title = "@" + browserTitleText.substring(0, index + 1);
+                animatedTitleEl.textContent = siteTitleText.substring(0, index + 1);
+                
+                index++;
+                
+                // Берем максимальную длину, чтобы допечатались оба слова если они разной длины
+                const maxLength = Math.max(browserTitleText.length, siteTitleText.length);
+                
+                if (index === maxLength) {
+                    isDeleting = true;
+                    setTimeout(animateTitles, 2000);
                     return;
                 }
             } else {
-                animatedTitleEl.textContent = siteTitleText.substring(0, siteTitleIndex - 1);
-                siteTitleIndex--;
-                if (siteTitleIndex === 0) {
-                    isSiteDeleting = false;
+                // Плавное удаление с учетом разницы в длине строк
+                document.title = "@" + browserTitleText.substring(0, Math.max(0, index - 1));
+                animatedTitleEl.textContent = siteTitleText.substring(0, Math.max(0, index - 1));
+                
+                index--;
+                if (index === 0) {
+                    isDeleting = false;
                 }
             }
-            setTimeout(animateSiteTitle, isSiteDeleting ? 150 : 250);
+            setTimeout(animateTitles, isDeleting ? 150 : 250);
         }
-        animateSiteTitle();
+        animateTitles();
 
         const video = document.getElementById('bgVideo');
         const muteBtn = document.getElementById('muteBtn');
