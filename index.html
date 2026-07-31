@@ -96,6 +96,13 @@
             margin-bottom: 8px;
         }
 
+        .static-at {
+            font-size: 22px;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
         h1 {
             font-size: 22px;
             font-weight: 600;
@@ -287,6 +294,7 @@
         <img src="avatar.png" class="avatar" alt="Avatar">
         
         <div class="title-container">
+            <span class="static-at">@</span>
             <h1 id="animatedTitle"></h1>
             <span class="particle"></span>
             <span class="particle"></span>
@@ -375,32 +383,56 @@
             });
         });
 
-        const titleText = "Rush_YT8";
-        let titleIndex = 0;
-        let isDeleting = false;
-        const animatedTitleEl = document.getElementById('animatedTitle');
+        // Анимация для названия вкладки и значка "@" перед ней
+        const browserTitleText = "Rush_YT8";
+        let browserTitleIndex = 0;
+        let isBrowserDeleting = false;
 
-        function animateTitle() {
-            if (!isDeleting) {
-                animatedTitleEl.textContent = titleText.substring(0, titleIndex + 1);
-                document.title = "@" + titleText.substring(0, titleIndex + 1);
-                titleIndex++;
-                if (titleIndex === titleText.length) {
-                    isDeleting = true;
-                    setTimeout(animateTitle, 2000);
+        function animateBrowserTitle() {
+            if (!isBrowserDeleting) {
+                document.title = "@" + browserTitleText.substring(0, browserTitleIndex + 1);
+                browserTitleIndex++;
+                if (browserTitleIndex === browserTitleText.length) {
+                    isBrowserDeleting = true;
+                    setTimeout(animateBrowserTitle, 2000);
                     return;
                 }
             } else {
-                animatedTitleEl.textContent = titleText.substring(0, titleIndex - 1);
-                document.title = "@" + titleText.substring(0, titleIndex - 1);
-                titleIndex--;
-                if (titleIndex === 0) {
-                    isDeleting = false;
+                document.title = "@" + browserTitleText.substring(0, browserTitleIndex - 1);
+                browserTitleIndex--;
+                if (browserTitleIndex === 0) {
+                    isBrowserDeleting = false;
                 }
             }
-            setTimeout(animateTitle, isDeleting ? 150 : 250);
+            setTimeout(animateBrowserTitle, isBrowserDeleting ? 150 : 250);
         }
-        animateTitle();
+        animateBrowserTitle();
+
+        // Отдельная анимация для заголовка ПОД АВАТАРКОЙ (Диджей Арбуз)
+        const siteTitleText = "Диджей Арбуз";
+        let siteTitleIndex = 0;
+        let isSiteDeleting = false;
+        const animatedTitleEl = document.getElementById('animatedTitle');
+
+        function animateSiteTitle() {
+            if (!isSiteDeleting) {
+                animatedTitleEl.textContent = siteTitleText.substring(0, siteTitleIndex + 1);
+                siteTitleIndex++;
+                if (siteTitleIndex === siteTitleText.length) {
+                    isSiteDeleting = true;
+                    setTimeout(animateSiteTitle, 2000);
+                    return;
+                }
+            } else {
+                animatedTitleEl.textContent = siteTitleText.substring(0, siteTitleIndex - 1);
+                siteTitleIndex--;
+                if (siteTitleIndex === 0) {
+                    isSiteDeleting = false;
+                }
+            }
+            setTimeout(animateSiteTitle, isSiteDeleting ? 150 : 250);
+        }
+        animateSiteTitle();
 
         const video = document.getElementById('bgVideo');
         const muteBtn = document.getElementById('muteBtn');
