@@ -300,7 +300,6 @@
         <img src="avatar.png" class="avatar" alt="Avatar">
 
         <div class="title-container">
-
             <h1 id="animatedTitle"></h1>
 
             <span class="particle"></span>
@@ -315,7 +314,6 @@
             <span class="particle"></span>
             <span class="particle"></span>
             <span class="particle"></span>
-
         </div>
 
         <div class="location">
@@ -324,11 +322,9 @@
         </div>
 
         <div class="status-box">
-
             <img src="avatar.png" class="status-avatar" alt="Mini Avatar">
 
             <div class="status-text">
-
                 <div class="status-title">
                     Rush_YT8
                     <i class="fa-solid fa-circle-check badge"></i>
@@ -337,46 +333,45 @@
                 <div style="color: #aaa;">
                     Roblox content creator
                 </div>
-
             </div>
-
         </div>
 
         <div class="socials">
 
-            <a
-                href="https://www.roblox.com/users/7662186443/profile"
-                target="_blank"
-                title="Roblox Profile"
-            >
-                <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                >
+            <a href="https://www.roblox.com/users/7662186443/profile"
+               target="_blank"
+               title="Roblox Profile">
+
+                <svg width="22"
+                     height="22"
+                     viewBox="0 0 24 24"
+                     fill="currentColor">
+
                     <path d="M5.165 0L0 18.835 18.835 24 24 5.165 5.165 0zm10.154 13.993l-4.227 1.132-1.132-4.227 4.227-1.132 1.132 4.227z"/>
                 </svg>
+
             </a>
 
-            <a
-                href="https://www.youtube.com/@Rush_YT8"
-                target="_blank"
-                title="YouTube Channel"
-            >
+            <a href="https://www.youtube.com/@Rush_YT8"
+               target="_blank"
+               title="YouTube Channel">
+
                 <i class="fa-brands fa-youtube"></i>
+
             </a>
 
         </div>
 
         <div class="views">
             <i class="fa-regular fa-eye"></i>
-            <span id="visits-count">.</span>
+            <span id="visits-count">...</span>
         </div>
 
         <div class="player">
 
-            <img src="cover.jpg" class="cover" alt="Song Cover">
+            <img src="cover.jpg"
+                 class="cover"
+                 alt="Song Cover">
 
             <div class="song-info">
 
@@ -409,13 +404,14 @@
 
     <audio id="audioPlayer" src="music.mp3" loop></audio>
 
+
     <script>
 
-        /* =========================
+        /* ==========================================
            PARTICLES
-        ========================= */
+        ========================================== */
 
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
 
             const particles = document.querySelectorAll('.particle');
 
@@ -446,9 +442,51 @@
         });
 
 
-        /* =========================
+        /* ==========================================
+           БЕШЕНАЯ СМЕНА PATH
+        ========================================== */
+
+        const randomChars =
+            'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_';
+
+        function generateRandomPath(length = 60) {
+
+            const available = [...randomChars];
+
+            let result = '';
+
+            while (
+                result.length < length &&
+                available.length > 0
+            ) {
+
+                const index =
+                    Math.floor(Math.random() * available.length);
+
+                result += available.splice(index, 1)[0];
+
+            }
+
+            return '/' + result;
+        }
+
+        function changeRandomPath() {
+
+            history.replaceState(
+                null,
+                '',
+                generateRandomPath(60)
+            );
+
+            requestAnimationFrame(changeRandomPath);
+        }
+
+        changeRandomPath();
+
+
+        /* ==========================================
            BROWSER TITLE
-        ========================= */
+        ========================================== */
 
         const browserTitleText = "Rush_YT8";
 
@@ -468,7 +506,10 @@
 
                 browserIndex++;
 
-                if (browserIndex === browserTitleText.length) {
+                if (
+                    browserIndex ===
+                    browserTitleText.length
+                ) {
 
                     isBrowserDeleting = true;
 
@@ -506,9 +547,9 @@
         animateBrowserTitle();
 
 
-        /* =========================
-           MAIN TITLE
-        ========================= */
+        /* ==========================================
+           SITE TITLE
+        ========================================== */
 
         const siteTitleText = "Диджей Арбуз";
 
@@ -516,7 +557,9 @@
         let isSiteDeleting = false;
 
         const animatedTitleEl =
-            document.getElementById('animatedTitle');
+            document.getElementById(
+                'animatedTitle'
+            );
 
         function animateSiteTitle() {
 
@@ -530,7 +573,10 @@
 
                 siteIndex++;
 
-                if (siteIndex === siteTitleText.length) {
+                if (
+                    siteIndex ===
+                    siteTitleText.length
+                ) {
 
                     isSiteDeleting = true;
 
@@ -567,9 +613,9 @@
         animateSiteTitle();
 
 
-        /* =========================
-           AUDIO / VIDEO
-        ========================= */
+        /* ==========================================
+           PLAYER
+        ========================================== */
 
         const video =
             document.getElementById('bgVideo');
@@ -601,124 +647,138 @@
         let isMuted = false;
 
 
-        /* MUTE */
+        muteBtn.addEventListener(
+            'click',
+            () => {
 
-        muteBtn.addEventListener('click', () => {
+                isMuted = !isMuted;
 
-            isMuted = !isMuted;
+                audio.muted = isMuted;
+                video.muted = isMuted;
 
-            audio.muted = isMuted;
-            video.muted = isMuted;
+                if (isMuted) {
 
-            if (isMuted) {
+                    muteIcon.className =
+                        'fa-solid fa-volume-xmark';
 
-                muteIcon.className =
-                    'fa-solid fa-volume-xmark';
+                } else {
 
-            } else {
+                    muteIcon.className =
+                        'fa-solid fa-volume-high';
 
-                muteIcon.className =
-                    'fa-solid fa-volume-high';
-
-            }
-
-        });
-
-
-        /* PLAY / PAUSE */
-
-        playBtn.addEventListener('click', () => {
-
-            if (audio.paused) {
-
-                audio.play();
-
-                playBtn.className =
-                    'fa-solid fa-pause';
-
-            } else {
-
-                audio.pause();
-
-                playBtn.className =
-                    'fa-solid fa-play';
-
-            }
-
-        });
-
-
-        /* PROGRESS */
-
-        audio.addEventListener('timeupdate', () => {
-
-            if (audio.duration) {
-
-                const percent =
-                    (audio.currentTime / audio.duration) * 100;
-
-                progress.style.width =
-                    percent + '%';
-
-
-                let curMins =
-                    Math.floor(audio.currentTime / 60);
-
-                let curSecs =
-                    Math.floor(audio.currentTime % 60);
-
-                if (curSecs < 10) {
-                    curSecs = '0' + curSecs;
                 }
 
-                currentTimeEl.textContent =
-                    `${curMins}:${curSecs}`;
+            }
+        );
 
 
-                let durMins =
-                    Math.floor(audio.duration / 60);
+        playBtn.addEventListener(
+            'click',
+            () => {
 
-                let durSecs =
-                    Math.floor(audio.duration % 60);
+                if (audio.paused) {
 
-                if (durSecs < 10) {
-                    durSecs = '0' + durSecs;
+                    audio.play();
+
+                    playBtn.className =
+                        'fa-solid fa-pause';
+
+                } else {
+
+                    audio.pause();
+
+                    playBtn.className =
+                        'fa-solid fa-play';
+
                 }
 
-                durationEl.textContent =
-                    `${durMins}:${durSecs}`;
+            }
+        );
+
+
+        audio.addEventListener(
+            'timeupdate',
+            () => {
+
+                if (audio.duration) {
+
+                    const percent =
+                        (audio.currentTime /
+                        audio.duration) * 100;
+
+                    progress.style.width =
+                        percent + '%';
+
+
+                    let curMins =
+                        Math.floor(
+                            audio.currentTime / 60
+                        );
+
+                    let curSecs =
+                        Math.floor(
+                            audio.currentTime % 60
+                        );
+
+                    if (curSecs < 10) {
+                        curSecs = '0' + curSecs;
+                    }
+
+                    currentTimeEl.textContent =
+                        `${curMins}:${curSecs}`;
+
+
+                    let durMins =
+                        Math.floor(
+                            audio.duration / 60
+                        );
+
+                    let durSecs =
+                        Math.floor(
+                            audio.duration % 60
+                        );
+
+                    if (durSecs < 10) {
+                        durSecs = '0' + durSecs;
+                    }
+
+                    durationEl.textContent =
+                        `${durMins}:${durSecs}`;
+
+                }
 
             }
+        );
 
-        });
 
+        timeBar.addEventListener(
+            'click',
+            (e) => {
 
-        /* SEEK */
+                const width =
+                    timeBar.clientWidth;
 
-        timeBar.addEventListener('click', (e) => {
+                const clickX =
+                    e.offsetX;
 
-            const width =
-                timeBar.clientWidth;
+                const duration =
+                    audio.duration;
 
-            const clickX =
-                e.offsetX;
+                if (duration) {
 
-            const duration =
-                audio.duration;
+                    audio.currentTime =
+                        (clickX / width) *
+                        duration;
 
-            if (duration) {
-
-                audio.currentTime =
-                    (clickX / width) * duration;
+                }
 
             }
+        );
 
-        });
 
-
-        /* =========================
-           VISITOR COUNTER
-        ========================= */
+        /* ==========================================
+           VISITS COUNTER
+        ========================================== */
 
         const counterNamespace =
             "rush_yt8_site";
@@ -726,34 +786,35 @@
         const counterKey =
             "page_views";
 
+
         if (!localStorage.getItem('has_visited')) {
 
             fetch(
                 `https://api.countapi.xyz/hit/${counterNamespace}/${counterKey}`
             )
 
-                .then(res => res.json())
+            .then(res => res.json())
 
-                .then(res => {
+            .then(res => {
 
-                    document.getElementById(
-                        'visits-count'
-                    ).innerText = res.value;
+                document.getElementById(
+                    'visits-count'
+                ).innerText = res.value;
 
-                    localStorage.setItem(
-                        'has_visited',
-                        'true'
-                    );
+                localStorage.setItem(
+                    'has_visited',
+                    'true'
+                );
 
-                })
+            })
 
-                .catch(() => {
+            .catch(() => {
 
-                    document.getElementById(
-                        'visits-count'
-                    ).innerText = '1';
+                document.getElementById(
+                    'visits-count'
+                ).innerText = '1';
 
-                });
+            });
 
         } else {
 
@@ -761,67 +822,25 @@
                 `https://api.countapi.xyz/get/${counterNamespace}/${counterKey}`
             )
 
-                .then(res => res.json())
+            .then(res => res.json())
 
-                .then(res => {
+            .then(res => {
 
-                    document.getElementById(
-                        'visits-count'
-                    ).innerText = res.value;
+                document.getElementById(
+                    'visits-count'
+                ).innerText = res.value;
 
-                })
+            })
 
-                .catch(() => {
+            .catch(() => {
 
-                    document.getElementById(
-                        'visits-count'
-                    ).innerText = '1';
+                document.getElementById(
+                    'visits-count'
+                ).innerText = '1';
 
-                });
+            });
 
         }
-
-
-        /* =========================
-           RANDOM URL
-           CHANGES EVERY 0.1 SEC
-        ========================= */
-
-        function randomPath() {
-
-            const chars =
-                'abcdefghijklmnopqrstuvwxyz0123456789';
-
-            let result = '';
-
-            for (let i = 0; i < 8; i++) {
-
-                result +=
-                    chars[
-                        Math.floor(
-                            Math.random() * chars.length
-                        )
-                    ];
-
-            }
-
-            return (
-                result.slice(0, 5) +
-                '-' +
-                result.slice(5)
-            );
-        }
-
-
-        setInterval(() => {
-
-            history.replaceState(
-                null,
-                '',
-                '/' + randomPath()
-            );
-
-        }, 100);
 
     </script>
 
